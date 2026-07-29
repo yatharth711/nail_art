@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lacquer & Mood — Nail Art by Feeling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#D46A78; --secondary:#F2C9D0; --accent:#C9A24B; --bg-tint:#FBF3F1;
+    --ink:#20161a; --paper:#fffdfb;
+    --primary-t: 0.55s cubic-bezier(.4,0,.2,1);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;}
+  html,body{
+    background: var(--bg-tint);
+    transition: background var(--primary-t);
+    font-family:'Poppins',sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:48px 24px 80px;}
+
+  header{text-align:center;margin-bottom:44px;}
+  .eyebrow{
+    font-size:11px; letter-spacing:.28em; text-transform:uppercase;
+    color:var(--primary); font-weight:500; transition:color var(--primary-t);
+  }
+  h1{
+    font-family:'Cormorant Garamond',serif; font-weight:600;
+    font-size:clamp(2.4rem,6vw,3.6rem); margin:6px 0 10px; letter-spacing:.01em;
+  }
+  h1 em{color:var(--primary); font-style:italic; transition:color var(--primary-t);}
+  .sub{font-size:14.5px; color:#6b5a5f; max-width:480px; margin:0 auto; line-height:1.6;}
+
+  /* mood bottle selector */
+  .mood-row{
+    display:flex; flex-wrap:wrap; justify-content:center; gap:18px 14px;
+    margin:40px 0 8px;
+  }
+  .bottle-btn{
+    all:unset; cursor:pointer; display:flex; flex-direction:column; align-items:center;
+    gap:8px; width:76px; opacity:.55; transform:translateY(0);
+    transition:opacity .3s ease, transform .3s ease;
+  }
+  .bottle-btn:hover{opacity:.9; transform:translateY(-3px);}
+  .bottle-btn.active{opacity:1; transform:translateY(-5px);}
+  .bottle-btn svg{filter:drop-shadow(0 6px 10px rgba(0,0,0,.12));}
+  .bottle-btn .label{
+    font-size:11px; letter-spacing:.03em; text-align:center; line-height:1.2;
+    color:var(--ink);
+  }
+  .bottle-btn.active .label{font-weight:600;}
+  .bottle-cap{fill:#2b2320;}
+
+  /* stage */
+  .stage{
+    margin-top:36px; background:var(--paper); border-radius:18px;
+    padding:36px clamp(18px,4vw,44px); box-shadow:0 20px 50px -25px rgba(20,10,14,.35);
+    border:1px solid rgba(0,0,0,.05);
+  }
+  .stage-head{display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:6px;}
+  .stage-head h2{
+    font-family:'Cormorant Garamond',serif; font-size:1.9rem; font-weight:600; margin:0;
+    color:var(--primary); transition:color var(--primary-t);
+  }
+  .stage-head .palette{display:flex; gap:6px;}
+  .swatch{width:16px; height:16px; border-radius:50%; box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);}
+  .tagline{font-size:13.5px; color:#7a6a6e; margin:0 0 22px; max-width:60ch;}
+  .tags{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px;}
+  .tag{
+    font-size:11.5px; padding:5px 12px; border-radius:999px; background:var(--bg-tint);
+    color:var(--ink); border:1px solid rgba(0,0,0,.06); transition:background var(--primary-t);
+  }
+
+  /* placeholder swatch grid (shown until a board is linked) */
+  .placeholder-grid{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+    gap:14px; margin-bottom:8px;
+  }
+  .p-card{
+    aspect-ratio:3/4; border-radius:12px; position:relative; overflow:hidden;
+    background:
+      radial-gradient(circle at 30% 25%, var(--secondary), transparent 60%),
+      linear-gradient(155deg, var(--primary) 0%, var(--accent) 100%);
+    display:flex; align-items:flex-end; padding:10px;
+  }
+  .p-card span{
+    font-size:10.5px; color:#fff; background:rgba(0,0,0,.28); padding:3px 8px;
+    border-radius:999px; backdrop-filter:blur(2px);
+  }
+
+  .board-embed{min-height:120px;}
+  .board-embed a{color:var(--primary);}
+
+  .actions{display:flex; flex-wrap:wrap; gap:12px; margin-top:22px;}
+  .btn{
+    font-family:'Poppins',sans-serif; font-size:13px; font-weight:500; cursor:pointer;
+    padding:11px 20px; border-radius:999px; border:1px solid transparent;
+    text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--primary); color:#fff; transition:background var(--primary-t), transform .15s ease;}
+  .btn-ghost{background:transparent; border-color:rgba(0,0,0,.15); color:var(--ink);}
+
+  .connect{
+    margin-top:26px; padding-top:22px; border-top:1px dashed rgba(0,0,0,.1);
+  }
+  .connect p{font-size:12.5px; color:#8a7a7e; margin:0 0 10px; line-height:1.6;}
+  .connect form{display:flex; gap:8px; flex-wrap:wrap;}
+  .connect input[type=url]{
+    flex:1; min-width:220px; padding:10px 14px; border-radius:10px;
+    border:1px solid rgba(0,0,0,.15); font-family:'Poppins',sans-serif; font-size:12.5px;
+  }
+  .connect .saved-note{font-size:11.5px; color:#2f8f5b; margin-top:8px; min-height:14px;}
+  .unlink{background:none;border:none;color:#a35; font-size:11.5px; cursor:pointer; text-decoration:underline; padding:0;}
+
+  footer{text-align:center; margin-top:38px; font-size:11.5px; color:#a3969a;}
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">lacquer &amp; mood</div>
+    <h1>What's today's <em id="moodWordHi">mood</em>?</h1>
+    <p class="sub">Pick the feeling you're dressing your hands for — the palette, the inspiration, and your Pinterest board follow.</p>
+  </header>
+
+  <nav class="mood-row" id="moodRow" aria-label="Choose a mood"></nav>
+
+  <section class="stage">
+    <div class="stage-head">
+      <h2 id="stageTitle">Romantic</h2>
+      <div class="palette" id="stagePalette"></div>
+    </div>
+    <p class="tagline" id="stageTagline"></p>
+    <div class="tags" id="stageTags"></div>
+
+    <div id="boardArea"></div>
+
+    <div class="actions">
+      <a class="btn btn-primary" id="searchPinterest" target="_blank" rel="noopener">Search this mood on Pinterest ↗</a>
+      <button class="btn btn-ghost" id="toggleConnect" type="button">Link your Pinterest board</button>
+    </div>
+
+    <div class="connect" id="connectPanel" style="display:none;">
+      <p>Pinterest's public API only exposes <em>your own</em> boards/pins — there's no open keyword-search endpoint for third-party apps. So the real integration here is: create a board for this mood, paste its link below, and it renders live via Pinterest's own embed widget.</p>
+      <form id="boardForm">
+        <input type="url" id="boardUrl" placeholder="https://www.pinterest.com/yourname/romantic-nails/" required>
+        <button class="btn btn-primary" type="submit">Save &amp; embed</button>
+      </form>
+      <div class="saved-note" id="savedNote"></div>
+    </div>
+  </section>
+
+  <footer>Bottle colors update live with your mood — nothing is tracked or shared.</footer>
+</div>
+
+<script src="https://assets.pinterest.com/js/pinit.js" data-pin-hover="true" async defer></script>
+<script>
+(function(){
+  const MOODS = [
+    { id:'romantic', label:'Romantic', primary:'#D46A78', secondary:'#F2C9D0', accent:'#C9A24B', bg:'#FBF3F1',
+      tagline:'Soft, blushed, a little sentimental — think French tips with a rosy twist.',
+      tags:['blush French tips','rose gold chrome','heart accents','soft ombré'] },
+    { id:'bold', label:'Bold & Fierce', primary:'#9E1B32', secondary:'#3A0D14', accent:'#E23744', bg:'#FBEFF0',
+      tagline:'High-contrast, high-confidence — statement red and black with sharp edges.',
+      tags:['vampy red','matte black tips','geometric line art','graphic negative space'] },
+    { id:'calm', label:'Calm & Serene', primary:'#8E86C9', secondary:'#AFCBE8', accent:'#D8D8E4', bg:'#F4F4FB',
+      tagline:'Quiet and unhurried — powder lavender, soft blue, a whisper of shimmer.',
+      tags:['lavender wash','cloud marble','milky white base','soft glazed shimmer'] },
+    { id:'fresh', label:'Fresh & Citrus', primary:'#3FAE7C', secondary:'#FF8C5A', accent:'#F4D35E', bg:'#F2FBF3',
+      tagline:'Bright and awake — mint, coral, and sunshine yellow for warm-weather energy.',
+      tags:['citrus color-block','mint tips','daisy accents','coral gradient'] },
+    { id:'elegant', label:'Elegant & Classic', primary:'#8A6A3C', secondary:'#E3C9A8', accent:'#1B1B1B', bg:'#FAF6EF',
+      tagline:'Understated luxury — nude, champagne gold, and a single graphic line.',
+      tags:['nude chrome','champagne foil','micro French line','glass skin finish'] },
+    { id:'mysterious', label:'Mysterious', primary:'#5B3A73', secondary:'#1B1420', accent:'#2E7D6B', bg:'#F3EEF6',
+      tagline:'Moody and magnetic — deep plum, near-black, a flash of emerald.',
+      tags:['smoked plum','deep emerald accent','galaxy fleck','matte-gloss contrast'] },
+    { id:'playful', label:'Playful & Fun', primary:'#E8508A', secondary:'#3ED6C6', accent:'#FFD23F', bg:'#FEF3F8',
+      tagline:'Loud on purpose — clashing pastels, polka dots, mismatched fingers.',
+      tags:['mismatched manicure','polka dot','pastel color-pop','sprinkle nails'] },
+  ];
+
+  const els = {
+    moodRow: document.getElementById('moodRow'),
+    stageTitle: document.getElementById('stageTitle'),
+    stagePalette: document.getElementById('stagePalette'),
+    stageTagline: document.getElementById('stageTagline'),
+    stageTags: document.getElementById('stageTags'),
+    boardArea: document.getElementById('boardArea'),
+    searchPinterest: document.getElementById('searchPinterest'),
+    toggleConnect: document.getElementById('toggleConnect'),
+    connectPanel: document.getElementById('connectPanel'),
+    boardForm: document.getElementById('boardForm'),
+    boardUrl: document.getElementById('boardUrl'),
+    savedNote: document.getElementById('savedNote'),
+    moodWordHi: document.getElementById('moodWordHi'),
+  };
+
+  let boardLinks = {};      // { moodId: pinterestBoardUrl }
+  let currentId = MOODS[0].id;
+
+  function bottleSVG(mood, active){
+    const c = mood.primary;
+    return `
+    <svg width="46" height="64" viewBox="0 0 46 64" xmlns="http://www.w3.org/2000/svg">
+      <rect x="17" y="2" width="12" height="10" rx="2" class="bottle-cap"/>
+      <rect x="19" y="0" width="8" height="4" rx="1" class="bottle-cap"/>
+      <path d="M14 12 H32 L36 22 C38 26 38 30 36 34 L34 56 C34 60 30 63 23 63 C16 63 12 60 12 56 L10 34 C8 30 8 26 10 22 Z"
+            fill="${c}" opacity="${active ? 1 : 0.85}" stroke="rgba(0,0,0,.15)" stroke-width="1"/>
+      <path d="M14 12 H32 L34.5 18 H11.5 Z" fill="${mood.secondary}" opacity="0.9"/>
+    </svg>`;
+  }
+
+  function renderMoodRow(){
+    els.moodRow.innerHTML = MOODS.map(m => `
+      <button class="bottle-btn${m.id===currentId ? ' active':''}" data-id="${m.id}" aria-pressed="${m.id===currentId}">
+        ${bottleSVG(m, m.id===currentId)}
+        <span class="label">${m.label}</span>
+      </button>
+    `).join('');
+    els.moodRow.querySelectorAll('.bottle-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=> selectMood(btn.dataset.id));
+    });
+  }
+
+  function applyTheme(m){
+    const r = document.documentElement.style;
+    r.setProperty('--primary', m.primary);
+    r.setProperty('--secondary', m.secondary);
+    r.setProperty('--accent', m.accent);
+    r.setProperty('--bg-tint', m.bg);
+  }
+
+  function renderPlaceholder(m){
+    const words = ['✨','◡','⌒','•'];
+    els.boardArea.innerHTML = `
+      <div class="placeholder-grid">
+        ${m.tags.map((t,i)=>`<div class="p-card"><span>${t}</span></div>`).join('')}
+      </div>
+    `;
+  }
+
+  function renderBoardEmbed(m, url){
+    els.boardArea.innerHTML = `
+      <div class="board-embed">
+        <a data-pin-do="embedBoard" data-pin-board-width="700" data-pin-scale-height="240" href="${url}"></a>
+      </div>`;
+    // Ask Pinterest's widget script to scan the DOM again for the new embed.
+    if (window.PinUtils && typeof window.PinUtils.build === 'function') {
+      window.PinUtils.build();
+    }
+  }
+
+  function renderStage(){
+    const m = MOODS.find(x=>x.id===currentId);
+    els.stageTitle.textContent = m.label;
+    els.moodWordHi.textContent = m.label.split(' ')[0].toLowerCase();
+    els.stagePalette.innerHTML = [m.primary,m.secondary,m.accent]
+      .map(c=>`<span class="swatch" style="background:${c}"></span>`).join('');
+    els.stageTagline.textContent = m.tagline;
+    els.stageTags.innerHTML = m.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+    els.searchPinterest.href = `https://www.pinterest.com/search/pins/?q=${encodeURIComponent(m.label + ' nail art')}`;
+    els.boardUrl.value = boardLinks[m.id] || '';
+    els.savedNote.textContent = '';
+
+    if (boardLinks[m.id]) {
+      renderBoardEmbed(m, boardLinks[m.id]);
+    } else {
+      renderPlaceholder(m);
+    }
+  }
+
+  function selectMood(id){
+    currentId = id;
+    const m = MOODS.find(x=>x.id===id);
+    applyTheme(m);
+    renderMoodRow();
+    renderStage();
+  }
+
+  els.toggleConnect.addEventListener('click', ()=>{
+    els.connectPanel.style.display = els.connectPanel.style.display === 'none' ? 'block' : 'none';
+  });
+
+  els.boardForm.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const url = els.boardUrl.value.trim();
+    if (!url) return;
+    boardLinks[currentId] = url;
+    try {
+      await window.storage.set('board-links', JSON.stringify(boardLinks), false);
+      els.savedNote.textContent = 'Saved — this board will load here next time too.';
+    } catch (err) {
+      els.savedNote.textContent = 'Saved for this session (could not persist).';
+    }
+    renderBoardEmbed(MOODS.find(x=>x.id===currentId), url);
+  });
+
+  async function init(){
+    try {
+      const res = await window.storage.get('board-links', false);
+      if (res && res.value) boardLinks = JSON.parse(res.value);
+    } catch (err) {
+      boardLinks = {};
+    }
+    applyTheme(MOODS[0]);
+    renderMoodRow();
+    renderStage();
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
